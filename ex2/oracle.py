@@ -1,8 +1,16 @@
-from dotenv import load_dotenv
 import os
+try:
+    from dotenv import load_dotenv
+    dotenv_available = True
+except ImportError:
+    print("Library could not be imported")
+    dotenv_available = False
 
 def load_config() -> tuple[dict[str, str | None], bool]:
-    env_loaded = load_dotenv()
+    if dotenv_available:
+        env_loaded = load_dotenv()
+    else:
+        env_loaded = False
     config: dict[str, str | None] = {}
     config["MATRIX_MODE"] = os.environ.get("MATRIX_MODE")
     config["DATABASE_URL"] = os.environ.get("DATABASE_URL")
